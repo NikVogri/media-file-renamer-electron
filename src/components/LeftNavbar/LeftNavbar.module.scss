@@ -1,0 +1,26 @@
+.left_navbar {
+  height: 100vh;
+  width: 12.5rem;
+  border-right: 1px solid gray;
+
+  ul {
+    list-style: none;
+    padding: 1rem 0;
+
+    li {
+      padding: 2rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      background-color: gray;
+
+      &.active {
+        background-color: orangered;
+      }
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+.renamer {
+  display: flex;
+  height: 85vh;
+
+  .core {
+    padding: 2rem;
+    width: 100%;
+
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 3rem;
+    }
+
+    .flex {
+      display: flex;
+      height: 100%;
+      justify-content: space-between;
+    }
+  }
+}
