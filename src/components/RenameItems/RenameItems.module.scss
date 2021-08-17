@@ -1,13 +1,23 @@
-.dropzone {
+.rename_items {
   height: 100%;
   width: 100%;
 
-  flex: 4;
+  overflow: auto;
 
   border-radius: 1rem;
-
   box-shadow: 0rem 0rem 0.5rem rgba(0, 0, 0, 0.2);
 
   background-color: var(--background-light);
-  padding: 2rem;
+
+  ul {
+    padding: 1rem;
+  }
+
+  p {
+    font-size: 0.8rem;
+  }
+
+  h4 {
+    font-size: 1.25rem;
+  }
 }

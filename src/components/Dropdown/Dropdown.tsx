@@ -1,16 +1,25 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 
 import { useDropzone } from 'react-dropzone';
+import { FileType } from '../../lib/FileType';
 
 import styles from './Dropdown.module.scss';
+import { GlobalContext } from '../../contexts/GlobalContext';
 
 const Dropdown: React.FC = () => {
-  const onDrop = useCallback((acceptedFiles) => {
-    console.log(acceptedFiles);
-  }, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { addFiles } = useContext(GlobalContext);
 
-  console.log(isDragActive);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const filteredFiles = acceptedFiles.filter((file: File) =>
+        FileType.isValid(file)
+      );
+
+      addFiles(filteredFiles);
+    },
+    [addFiles]
+  );
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <div {...getRootProps()} className={styles.dropzone}>
