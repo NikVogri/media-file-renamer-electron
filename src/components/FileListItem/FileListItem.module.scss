@@ -1,0 +1,29 @@
+.file_list_item {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+
+  padding: 1rem 0;
+
+  img {
+    width: 2rem;
+    height: 2rem;
+
+    opacity: 0.25;
+    transform: rotate(-45deg) scale(1.64);
+  }
+
+  .info {
+    padding-left: 1.25rem;
+    h4 {
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+}

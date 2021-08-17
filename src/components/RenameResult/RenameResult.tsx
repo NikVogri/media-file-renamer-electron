@@ -1,11 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { GlobalContext } from '../../contexts/GlobalContext';
+import { FileManager } from '../../lib/FileManager';
+import FileListItem from '../FileListItem/FileListItem';
 
 import styles from './RenameResult.module.scss';
 
-interface RenameResultProps {}
+const RenameResult: React.FC = () => {
+  const { files } = useContext(GlobalContext);
 
-const RenameResult: React.FC<RenameResultProps> = ({}) => {
-  return <div className={styles.rename_result}></div>;
+  return (
+    <div className={styles.rename_result}>
+      <div>
+        <ul>
+          {files
+            .filter((file: FileManager) => file.edited)
+            .map((file: FileManager) => (
+              <FileListItem key={file.newName} file={file} showEdited />
+            ))}
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default RenameResult;

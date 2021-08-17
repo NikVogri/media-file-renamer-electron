@@ -15,8 +15,8 @@ const LeftNavbar: React.FC<LeftNavbarProps> = ({ currentlyActive }) => {
         <li className={currentlyActive === 'renamer' ? styles.active : ''}>
           <Link to="/">Rename</Link>
         </li>
-        <li className={currentlyActive === 'other' ? styles.active : ''}>
-          <Link to="/other">Other</Link>
+        <li className={currentlyActive === 'settings' ? styles.active : ''}>
+          <Link to="/settings">Settings</Link>
         </li>
         <li>Item 3</li>
       </ul>
