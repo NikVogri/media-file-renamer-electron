@@ -1,0 +1,37 @@
+.backdrop {
+  height: 99%;
+  width: 99%;
+
+  transform: translate(-13rem, -7.5rem);
+
+  position: absolute;
+  z-index: 99;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  img {
+    height: 10rem;
+    animation: infinite-spin 2s infinite;
+    margin-bottom: 2rem;
+  }
+
+  p {
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+@keyframes infinite-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import LeftNavbar from '../../components/LeftNavbar/LeftNavbar';
+import MovingOverlay from '../../components/MovingOverlay/MovingOverlay';
 import RenameControlls from '../../components/RenameControlls/RenameControlls';
 import RenameItems from '../../components/RenameItems/RenameItems';
 import RenameResult from '../../components/RenameResult/RenameResult';
