@@ -1,0 +1,6 @@
+{
+  "settings": {
+    "defaultDrive": "G:",
+    "path": "movies/{title}/{title} - {year}"
+  }
+}
