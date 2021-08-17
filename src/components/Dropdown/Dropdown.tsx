@@ -2,6 +2,7 @@ import React, { useCallback, useContext } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 import { FileType } from '../../lib/FileType';
+import dropItemsIcon from '../../../assets/icons/drop-items.svg';
 
 import styles from './Dropdown.module.scss';
 import { GlobalContext } from '../../contexts/GlobalContext';
@@ -11,6 +12,7 @@ const Dropdown: React.FC = () => {
 
   const onDrop = useCallback(
     (acceptedFiles) => {
+      console.log(acceptedFiles);
       const filteredFiles = acceptedFiles.filter((file: File) =>
         FileType.isValid(file)
       );
@@ -24,11 +26,15 @@ const Dropdown: React.FC = () => {
   return (
     <div {...getRootProps()} className={styles.dropzone}>
       <input {...getInputProps()} />
-
       {isDragActive ? (
-        <p>Drop the files here ...</p>
+        <div>active</div>
       ) : (
-        <p>Drag n drop some files here, or click to select files</p>
+        <div className={styles.dropzoneCenter}>
+          <img src={dropItemsIcon} alt="Drop files or folders" />
+          <p>
+            <strong>Drag & drop</strong> files or folders here
+          </p>
+        </div>
       )}
     </div>
   );
