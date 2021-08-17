@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import path from 'path';
 
 import styles from './FileListItem.module.scss';
 
 import videoIcon from '../../../assets/icons/video.svg';
 import subtitleIcon from '../../../assets/icons/subtitles.svg';
 import { FileType } from '../../lib/FileType';
-import { convertBytesToHigherUnit } from '../../lib/fileSizeConverter';
 import { FileManager } from '../../lib/FileManager';
 
 interface FileListItemProps {
@@ -26,7 +26,10 @@ const FileListItem: React.FC<FileListItemProps> = ({ file, showEdited }) => {
       />
 
       <div className={styles.info}>
-        <p>{!showEdited ? file.path.build() : file.newPath.build()}/</p>
+        <p>
+          {!showEdited ? file.path.build() : file.newPath.build()}
+          {path.sep}
+        </p>
         <h4>{!showEdited ? file.name : file.newName}</h4>
       </div>
       {/* <h4>{convertBytesToHigherUnit(file.size)}</h4> */}

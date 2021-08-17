@@ -10,9 +10,9 @@ export class FileManager {
 
   public type: string;
 
-  private path: Path;
+  public path: Path;
 
-  private newPath: Path;
+  public newPath: Path;
 
   private filenameData: any;
 
