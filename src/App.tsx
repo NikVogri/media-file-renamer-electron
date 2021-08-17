@@ -1,18 +1,21 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import GlobalContextProvider from './contexts/GlobalContext';
 
 import './globals.css';
 
-import Other from './screens/Other/Other';
 import Rename from './screens/Rename/Rename';
+import Settings from './screens/Settings/Settings';
 
 export default function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/other" component={Other} />
-        <Route path="/" component={Rename} />
-      </Switch>
-    </Router>
+    <GlobalContextProvider>
+      <Router>
+        <Switch>
+          <Route path="/settings" component={Settings} />
+          <Route path="/" component={Rename} />
+        </Switch>
+      </Router>
+    </GlobalContextProvider>
   );
 }
