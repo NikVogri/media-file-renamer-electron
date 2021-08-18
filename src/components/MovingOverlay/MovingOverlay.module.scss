@@ -1,8 +1,8 @@
 .backdrop {
-  height: 99%;
-  width: 99%;
+  height: 100%;
+  width: 100%;
 
-  transform: translate(-13rem, -7.5rem);
+  // transform: translate(-13rem, -7.5rem);
 
   position: absolute;
   z-index: 99;
@@ -12,12 +12,34 @@
   justify-content: center;
   align-items: center;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: black;
 
-  img {
+  .icon {
     height: 10rem;
-    animation: infinite-spin 2s infinite;
     margin-bottom: 2rem;
+
+    &.spin {
+      animation: infinite-spin 2s infinite;
+    }
+  }
+
+  button {
+    margin-top: 2rem;
+    background: none;
+    border: solid 1px #fff;
+    padding: 0.5rem 4.5rem;
+    border-radius: 0.5rem;
+    outline: none;
+
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: transform 0.25s ease-in;
+
+    &:hover {
+      transform: scale(1.01);
+    }
   }
 
   p {
