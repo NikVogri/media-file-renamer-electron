@@ -1,7 +1,7 @@
 import path from 'path';
 
 export class Path {
-  private disk: string;
+  public disk: string;
 
   private directories: string[];
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './RenameControlls.module.scss';
@@ -10,14 +10,31 @@ import Check from '../../../assets/icons/check.svg';
 
 import { GlobalContext } from '../../contexts/GlobalContext';
 import { FileManager } from '../../lib/FileManager';
+import { MovingStep } from '../../lib/tsDefinitions';
+import { fileMoveErrorReadableMessageExtractor } from '../../lib/moveErrorHandler';
 
 const RenameControlls: React.FC = () => {
-  const { convertFiles, files, clearFiles } = useContext(GlobalContext);
+  const {
+    convertFiles,
+    files,
+    clearFiles,
+    initiateFileMove,
+    setErrorWhileMoving,
+    setFilesMoveStep,
+  } = useContext(GlobalContext);
 
   const handleRename = () => convertFiles();
   const handleClearItems = () => clearFiles();
-  const handleMove = () => {
-    console.log('moving files');
+  const handleMove = async () => {
+    try {
+      setFilesMoveStep(MovingStep.loading);
+      await initiateFileMove();
+      setFilesMoveStep(MovingStep.success);
+    } catch (err) {
+      setFilesMoveStep(MovingStep.fail);
+      setErrorWhileMoving(fileMoveErrorReadableMessageExtractor(err));
+      console.log(err);
+    }
   };
 
   const filesWereEdited = files.every((file: FileManager) => file.edited);
