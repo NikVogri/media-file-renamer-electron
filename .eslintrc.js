@@ -11,6 +11,7 @@ module.exports = {
     'jsx-a11y/click-events-have-key-events': 'off',
     'consistent-return': 'off',
     'no-await-in-loop': 'off',
+    'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
   },
   parserOptions: {
     ecmaVersion: 2020,
