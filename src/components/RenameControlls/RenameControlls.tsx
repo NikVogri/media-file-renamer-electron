@@ -37,7 +37,8 @@ const RenameControlls: React.FC = () => {
     }
   };
 
-  const filesWereEdited = files.every((file: FileManager) => file.edited);
+  const filesWereEdited =
+    files.length > 0 && files.every((file: FileManager) => file.edited);
 
   return (
     <>
