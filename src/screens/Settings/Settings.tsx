@@ -75,48 +75,38 @@ const Settings: React.FC = () => {
         <h1>Settings</h1>
 
         <form onSubmit={handleSave} className={styles.form}>
-          <div className={styles.formGroup}>
-            {foundDisks.length > 0 && (
-              <select
-                name="disk"
-                id="disk"
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                  setSelectedDisk(e.target.value)
-                }
-                defaultValue={selectedDisk}
-              >
-                {foundDisks.map((disk: string) => (
-                  <option value={disk} key={disk}>
-                    {disk}
-                  </option>
-                ))}
-              </select>
-            )}
-            <input
-              type="text"
-              id="template"
-              value={fileTemplatePath}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFileTemplatePath(e.target.value)
-              }
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label htmlFor="offline-mode">
-              Offline Mode{' '}
+          <div className={`${styles.formGroup} ${styles.mapping}`}>
+            <span>Route & title mapping</span>
+            <div>
+              {foundDisks.length > 0 && (
+                <select
+                  name="disk"
+                  id="disk"
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    setSelectedDisk(e.target.value)
+                  }
+                  defaultValue={selectedDisk}
+                >
+                  {foundDisks.map((disk: string) => (
+                    <option value={disk} key={disk}>
+                      {disk}
+                    </option>
+                  ))}
+                </select>
+              )}
               <input
-                type="checkbox"
-                id="offline-mode"
-                checked={offlineMode}
+                type="text"
+                id="template"
+                value={fileTemplatePath}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setOfflineMode(!!e.target.value)
+                  setFileTemplatePath(e.target.value)
                 }
               />
-            </label>
+            </div>
           </div>
           <div className={styles.formGroup}>
             <label htmlFor="tmdb-api-key">
-              The movie database API key
+              <span> The movie database API key</span>
               <input
                 type="text"
                 id="tmdb-api-key"
@@ -125,6 +115,21 @@ const Settings: React.FC = () => {
                   setTMDBApiKey(e.target.value)
                 }
               />
+            </label>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="offline-mode">
+              <div>
+                Offline Mode{' '}
+                <input
+                  type="checkbox"
+                  id="offline-mode"
+                  checked={offlineMode}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setOfflineMode(!!e.target.value)
+                  }
+                />
+              </div>
             </label>
           </div>
           <button
