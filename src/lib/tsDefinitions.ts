@@ -4,3 +4,8 @@ export enum MovingStep {
   success,
   fail,
 }
+
+export interface MovingFile {
+  name: string;
+  place: number;
+}
