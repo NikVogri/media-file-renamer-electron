@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
 import LeftNavbar from '../../components/LeftNavbar/LeftNavbar';
-import MovingOverlay from '../../components/MovingOverlay/MovingOverlay';
+import MovingStepScreen from '../../components/MovingStepScreen/MovingStepScreen';
 import RenameControlls from '../../components/RenameControlls/RenameControlls';
 import SelectedFilesList from '../../components/SelectedFilesList/SelectedFilesList';
 import RenamedFilesExample from '../../components/RenamedFilesExample/RenamedFilesExample';
@@ -19,7 +19,10 @@ const Rename: React.FC = () => {
   if (movingStep > 0) {
     return (
       <main className={styles.renamer}>
-        <MovingOverlay movingStep={movingStep} failReason={moveErrorMessage} />
+        <MovingStepScreen
+          movingStep={movingStep}
+          failReason={moveErrorMessage}
+        />
       </main>
     );
   }

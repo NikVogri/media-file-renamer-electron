@@ -2,8 +2,6 @@
   height: 100%;
   width: 100%;
 
-  // transform: translate(-13rem, -7.5rem);
-
   position: absolute;
   z-index: 99;
 
@@ -63,14 +61,5 @@
     font-size: 2rem;
     color: #fff;
     font-weight: 500;
-  }
-}
-
-@keyframes infinite-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }

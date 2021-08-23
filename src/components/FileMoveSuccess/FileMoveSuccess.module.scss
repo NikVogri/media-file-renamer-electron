@@ -1,0 +1,48 @@
+.backdrop {
+  height: 100%;
+  width: 100%;
+
+  position: absolute;
+  z-index: 99;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-color: black;
+
+  .icon {
+    height: 10rem;
+    margin-bottom: 2rem;
+
+    &.spin {
+      animation: infinite-spin 2s infinite;
+    }
+  }
+
+  button {
+    margin-top: 2rem;
+    background: none;
+    border: solid 1px #fff;
+    padding: 0.5rem 4.5rem;
+    border-radius: 0.5rem;
+    outline: none;
+
+    color: #fff;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: transform 0.25s ease-in;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+
+  p {
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 500;
+  }
+}
