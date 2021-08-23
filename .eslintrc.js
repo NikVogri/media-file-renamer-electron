@@ -12,6 +12,7 @@ module.exports = {
     'consistent-return': 'off',
     'no-await-in-loop': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
+    'react/prop-types': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
