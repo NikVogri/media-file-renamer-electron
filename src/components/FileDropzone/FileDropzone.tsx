@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';

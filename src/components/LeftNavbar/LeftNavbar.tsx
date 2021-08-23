@@ -18,7 +18,6 @@ const LeftNavbar: React.FC<LeftNavbarProps> = ({ currentlyActive }) => {
         <li className={currentlyActive === 'settings' ? styles.active : ''}>
           <Link to="/settings">Settings</Link>
         </li>
-        <li>Item 3</li>
       </ul>
     </nav>
   );
