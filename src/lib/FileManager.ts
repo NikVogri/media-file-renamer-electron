@@ -43,6 +43,9 @@ export class FileManager {
     const oldPath = `${this.path.build()}${path.sep}${this.name}`;
     const newPath = `${this.newPath.build()}${path.sep}${this.newName}`;
 
+    console.log(oldPath);
+    console.log(newPath);
+
     await fs.move(oldPath, newPath);
     // await fs.remove(oldPath);
     // await fs.rename(oldPath, newPath); // TODO: check implementation
