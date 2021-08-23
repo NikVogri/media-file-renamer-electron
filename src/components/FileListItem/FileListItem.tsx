@@ -6,8 +6,8 @@ import styles from './FileListItem.module.scss';
 
 import videoIcon from '../../../assets/icons/video.svg';
 import subtitleIcon from '../../../assets/icons/subtitles.svg';
-import { FileType } from '../../lib/FileType';
 import { FileManager } from '../../lib/FileManager';
+import { isVideo } from '../../lib/fileHelpers';
 
 interface FileListItemProps {
   file: FileManager;
@@ -15,8 +15,7 @@ interface FileListItemProps {
 }
 
 const FileListItem: React.FC<FileListItemProps> = ({ file, showEdited }) => {
-  console.log(file);
-  const fileIsVideo = FileType.isVideo(file.type);
+  const fileIsVideo = isVideo(file.type);
 
   return (
     <li className={styles.file_list_item}>
