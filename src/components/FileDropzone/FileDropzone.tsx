@@ -1,25 +1,23 @@
 import React, { useCallback, useContext } from 'react';
 
 import { useDropzone } from 'react-dropzone';
-import { FileType } from '../../lib/FileType';
+import { useDispatch } from 'react-redux';
+import { isSupportedFile } from '../../lib/fileHelpers';
+import { addFiles } from '../../redux/actions/fileActionsCreator';
+
 import dropItemsIcon from '../../../assets/icons/drop-items.svg';
 
-import styles from './Dropdown.module.scss';
-import { GlobalContext } from '../../contexts/GlobalContext';
+import styles from './FileDropzone.module.scss';
 
 const Dropdown: React.FC = () => {
-  const { addFiles } = useContext(GlobalContext);
+  const dispatch = useDispatch();
 
   const onDrop = useCallback(
     (acceptedFiles) => {
-      console.log(acceptedFiles);
-      const filteredFiles = acceptedFiles.filter((file: File) =>
-        FileType.isValid(file)
-      );
-
-      addFiles(filteredFiles);
+      const supportedFiles = acceptedFiles.filter(isSupportedFile) as File[];
+      dispatch(addFiles(supportedFiles));
     },
-    [addFiles]
+    [dispatch]
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
