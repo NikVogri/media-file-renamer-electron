@@ -23,6 +23,23 @@
     }
   }
 
+  .movingDescription {
+    padding: 2rem;
+    & p {
+      &:nth-child(1) {
+        font-size: 1.7rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      &:nth-child(2) {
+        font-size: 1.25rem;
+      }
+
+      text-align: center;
+    }
+  }
+
   button {
     margin-top: 2rem;
     background: none;

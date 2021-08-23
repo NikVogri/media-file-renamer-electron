@@ -1,26 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { MovingStep } from '../../lib/tsDefinitions';
+import { RootState } from '../../redux/store';
+import { setMovingStep } from '../../redux/actions/fileActionsCreator';
+import * as types from '../../constants/actionTypes';
 
 import styles from './MovingOverlay.module.scss';
 
 import Spinner from '../../../assets/icons/circle-notch.svg';
 import CheckmarkIcon from '../../../assets/icons/checkmark.svg';
 import FailureIcon from '../../../assets/icons/failure.svg';
-import { GlobalContext } from '../../contexts/GlobalContext';
-import { MovingStep } from '../../lib/tsDefinitions';
 
 interface MovingOverlayInterface {
-  type: MovingStep;
-  failReason?: string;
+  movingStep: MovingStep;
+  failReason?: string | null;
   filesMoved?: string[];
 }
 
 const MovingOverlay: React.FC<MovingOverlayInterface> = ({
-  type,
+  movingStep,
   failReason,
 }) => {
-  const { files, clearFiles, setFilesMoveStep } = useContext(GlobalContext);
   const [loadingDots, setLoadingDots] = useState('.');
+  const files = useSelector((state: RootState) => state.file.files);
+
+  const currentlyMovingFile = useSelector(
+    (state: RootState) => state.file.currentlyMovingFile
+  );
+
+  const dispatch = useDispatch();
 
   const updateDots = () => {
     setLoadingDots((oldDots) => {
@@ -32,19 +41,21 @@ const MovingOverlay: React.FC<MovingOverlayInterface> = ({
   useEffect(() => {
     let dotsInterval: NodeJS.Timeout;
 
-    if (type === MovingStep.loading) {
+    if (movingStep === MovingStep.loading) {
       dotsInterval = setInterval(updateDots, 750);
     }
 
     return () => clearInterval(dotsInterval);
-  }, [type]);
+  }, [movingStep]);
 
   const handleSuccessCloseOverlay = () => {
-    clearFiles();
-    setFilesMoveStep(MovingStep.none);
+    dispatch({ type: types.CLEAR_FILES });
+    dispatch(setMovingStep(MovingStep.none));
   };
 
-  if (type === MovingStep.loading) {
+  console.log(currentlyMovingFile);
+
+  if (movingStep === MovingStep.loading) {
     return (
       <div className={styles.backdrop}>
         <img
@@ -58,11 +69,17 @@ const MovingOverlay: React.FC<MovingOverlayInterface> = ({
           </small>
         </p>
         <p>Moving files{loadingDots}</p>
+        <div className={styles.movingDescription}>
+          <p>
+            {currentlyMovingFile?.place}/{files.length}
+          </p>
+          <p>{currentlyMovingFile?.name}</p>
+        </div>
       </div>
     );
   }
 
-  if (type === MovingStep.success) {
+  if (movingStep === MovingStep.success) {
     return (
       <div className={styles.backdrop}>
         <img src={CheckmarkIcon} alt="Success" className={styles.icon} />
@@ -74,13 +91,16 @@ const MovingOverlay: React.FC<MovingOverlayInterface> = ({
     );
   }
 
-  if (type === MovingStep.fail) {
+  if (movingStep === MovingStep.fail) {
     return (
       <div className={styles.backdrop}>
         <img src={FailureIcon} alt="Failure" className={styles.icon} />
         <p>Moving failed</p>
         <p>{failReason}</p>
-        <button type="button" onClick={() => setFilesMoveStep(MovingStep.none)}>
+        <button
+          type="button"
+          onClick={() => dispatch(setMovingStep(MovingStep.none))}
+        >
           Close
         </button>
       </div>
@@ -91,12 +111,12 @@ const MovingOverlay: React.FC<MovingOverlayInterface> = ({
 };
 
 MovingOverlay.propTypes = {
-  type: PropTypes.any.isRequired,
+  movingStep: PropTypes.any.isRequired,
   failReason: PropTypes.string,
 };
 
 MovingOverlay.defaultProps = {
-  failReason: undefined,
+  failReason: null,
 };
 
 export default MovingOverlay;
