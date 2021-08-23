@@ -1,21 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 import LeftNavbar from '../../components/LeftNavbar/LeftNavbar';
 import MovingOverlay from '../../components/MovingOverlay/MovingOverlay';
 import RenameControlls from '../../components/RenameControlls/RenameControlls';
-import RenameItems from '../../components/RenameItems/RenameItems';
-import RenameResult from '../../components/RenameResult/RenameResult';
-import { GlobalContext } from '../../contexts/GlobalContext';
+import SelectedFilesList from '../../components/SelectedFilesList/SelectedFilesList';
+import RenamedFilesExample from '../../components/RenamedFilesExample/RenamedFilesExample';
 
 import styles from './Rename.module.scss';
 
 const Rename: React.FC = () => {
-  const { filesMoveStep, errorWhileMoving } = useContext(GlobalContext);
+  const movingStep = useSelector((state: RootState) => state.file.movingStep);
+  const moveErrorMessage = useSelector(
+    (state: RootState) => state.file.moveErrorMessage
+  );
 
-  if (filesMoveStep > 0) {
+  if (movingStep > 0) {
     return (
       <main className={styles.renamer}>
-        <MovingOverlay type={filesMoveStep} failReason={errorWhileMoving} />
+        <MovingOverlay movingStep={movingStep} failReason={moveErrorMessage} />
       </main>
     );
   }
@@ -26,9 +30,9 @@ const Rename: React.FC = () => {
       <div className={styles.core}>
         <h1>Rename</h1>
         <div className={styles.flex}>
-          <RenameItems />
+          <SelectedFilesList />
           <RenameControlls />
-          <RenameResult />
+          <RenamedFilesExample />
         </div>
       </div>
     </main>

@@ -1,72 +1,64 @@
-import React, {
-  FormEvent,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
-import child from 'child_process';
-import LeftNavbar from '../../components/LeftNavbar/LeftNavbar';
+import React, { FormEvent, useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getConnectedDrives } from '../../lib/systemHelper';
+import {
+  setFoundDrives,
+  setPathTemplate,
+  setSelectedDrive,
+} from '../../redux/actions/settingsActtionsCreator';
+import { RootState } from '../../redux/store';
 
 import styles from './Settings.module.scss';
-import { GlobalContext } from '../../contexts/GlobalContext';
 
 import localStorage from '../../../temp_dev_storage.json';
+import LeftNavbar from '../../components/LeftNavbar/LeftNavbar';
 
 const Settings: React.FC = () => {
-  const {
-    setRenameTemplate,
-    files,
-    setFoundDisks,
-    foundDisks,
-    selectedDisk,
-    setSelectedDisk,
-    renameTemplate,
-  } = useContext(GlobalContext);
-  const [fileTemplatePath, setFileTemplatePath] = useState(
-    localStorage.settings.path
+  const dispatch = useDispatch();
+  const { selectedDrive, foundDrives, files, template } = useSelector(
+    (state: RootState) => ({
+      selectedDrive: state.settings.selectedDrive,
+      foundDrives: state.settings.foundDrives,
+      files: state.file.files,
+      template: state.settings.template,
+    })
   );
+
+  const [fileTemplatePath, setFileTemplatePath] = useState('');
+  const [selectedDisk, setSelectedDisk] = useState('');
 
   const [TMDBApiKey, setTMDBApiKey] = useState('');
   const [offlineMode, setOfflineMode] = useState(true);
 
-  const fetchLocalDisks = useCallback(() => {
-    child.exec('wmic logicaldisk get name', (error, stdout) => {
-      if (error) {
-        console.log('Error while fetching disks', error);
-        // TODO: log to file
-      }
-      const connectedDisks = stdout
-        .split('\r\r\n')
-        .filter((value) => /[A-Za-z]:/.test(value))
-        .map((value) => value.trim());
+  const fetchLocalDisks = useCallback(async () => {
+    const connectedDrives = await getConnectedDrives();
 
-      if (connectedDisks.length > 0) {
-        setFoundDisks(connectedDisks);
-      } else {
-        // TODO: log to file
-        console.log('No disks found');
-      }
-    });
-  }, [setFoundDisks]);
+    dispatch(setFoundDrives(connectedDrives));
+  }, [dispatch]);
 
   useEffect(() => {
-    if (!foundDisks.length) {
+    if (template) {
+      setFileTemplatePath(template);
+    }
+
+    if (!foundDrives.length) {
       fetchLocalDisks();
     }
 
-    if (files.length > 0) {
-      setSelectedDisk(files[0].path.disk);
+    if (!selectedDrive && foundDrives.length > 0 && files.length < 1) {
+      dispatch(setSelectedDrive(foundDrives[0]));
     }
-  }, [files, setSelectedDisk, foundDisks, fetchLocalDisks]);
+
+    if (!selectedDrive && files.length > 0) {
+      dispatch(setSelectedDrive(files[0].path.disk));
+    }
+  }, [dispatch, fetchLocalDisks, files, foundDrives, selectedDrive, template]);
 
   const handleSave = (e: FormEvent) => {
     e.preventDefault();
-    setRenameTemplate(`${selectedDisk}/${fileTemplatePath}`);
-    console.log(TMDBApiKey);
+    dispatch(setPathTemplate(fileTemplatePath));
+    dispatch(setSelectedDrive(selectedDisk));
   };
-
-  console.log(selectedDisk);
 
   return (
     <main className={styles.settings}>
@@ -78,16 +70,18 @@ const Settings: React.FC = () => {
           <div className={`${styles.formGroup} ${styles.mapping}`}>
             <span>Route & title mapping</span>
             <div>
-              {foundDisks.length > 0 && (
+              {foundDrives.length > 0 && (
                 <select
                   name="disk"
                   id="disk"
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                     setSelectedDisk(e.target.value)
                   }
-                  defaultValue={selectedDisk}
+                  defaultValue={
+                    typeof selectedDrive === 'string' ? selectedDrive : ''
+                  }
                 >
-                  {foundDisks.map((disk: string) => (
+                  {foundDrives.map((disk: string) => (
                     <option value={disk} key={disk}>
                       {disk}
                     </option>
@@ -132,12 +126,7 @@ const Settings: React.FC = () => {
               </div>
             </label>
           </div>
-          <button
-            type="submit"
-            disabled={renameTemplate === `${selectedDisk}/${fileTemplatePath}`}
-          >
-            save
-          </button>
+          <button type="submit">save</button>
         </form>
         <hr />
         <h3>Examples</h3>
