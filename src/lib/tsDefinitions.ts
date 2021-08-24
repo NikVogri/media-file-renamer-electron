@@ -9,3 +9,8 @@ export interface MovingFile {
   name: string;
   place: number;
 }
+
+export enum Icon {
+  rename = 'rename',
+  settings = 'settings',
+}
