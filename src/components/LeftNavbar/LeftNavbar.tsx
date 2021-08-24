@@ -1,30 +1,57 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { Icon } from '../../lib/tsDefinitions';
 
 import styles from './LeftNavbar.module.scss';
 
-interface LeftNavbarProps {
-  currentlyActive: string;
-}
+import LeftNavIcon from '../LeftNavIcon/LeftNavIcon';
 
-const LeftNavbar: React.FC<LeftNavbarProps> = ({ currentlyActive }) => {
+const LeftNavbar: React.FC<LeftNavbarProps> = () => {
+  const [show, setShow] = useState(false);
+
+  const { pathname } = useLocation();
+
+  console.log(pathname);
+
+  const handleHover = () => {
+    setShow(true);
+  };
+
+  const handleLeave = () => {
+    setShow(false);
+  };
+
   return (
-    <nav className={styles.left_navbar}>
+    <nav
+      className={`${styles.left_navbar} ${show ? styles.show : ''}`}
+      onMouseOver={handleHover}
+      onMouseLeave={handleLeave}
+      onFocus={handleHover}
+    >
+      <h1>Re-namer</h1>
       <ul>
-        <li className={currentlyActive === 'renamer' ? styles.active : ''}>
-          <Link to="/">Rename</Link>
+        <li className={pathname === '/' ? styles.active : ''}>
+          <Link to="/">
+            <LeftNavIcon active={pathname === '/'} icon={Icon.rename} />
+            Rename
+          </Link>
         </li>
-        <li className={currentlyActive === 'settings' ? styles.active : ''}>
-          <Link to="/settings">Settings</Link>
+        <li className={pathname === '/settings' ? styles.active : ''}>
+          <Link to="/settings">
+            <LeftNavIcon
+              active={pathname === '/settings'}
+              icon={Icon.settings}
+            />
+            Settings
+          </Link>
         </li>
       </ul>
+
+      <div className={styles.disclaimer}>
+        <p>Version: 0.0.2</p>
+      </div>
     </nav>
   );
-};
-
-LeftNavbar.propTypes = {
-  currentlyActive: PropTypes.string.isRequired,
 };
 
 export default LeftNavbar;
