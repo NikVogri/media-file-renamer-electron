@@ -1,0 +1,12 @@
+.filesList {
+  height: 100%;
+  width: 50%;
+
+  overflow: auto;
+
+  border-radius: 1rem;
+  box-shadow: 0rem 0rem 0.5rem rgba(0, 0, 0, 0.2);
+
+  background-color: var(--bg-darker);
+  padding: 1rem;
+}
