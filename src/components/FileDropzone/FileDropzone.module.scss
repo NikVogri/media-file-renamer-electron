@@ -7,25 +7,51 @@
 
   border-radius: 1rem;
 
+  border: solid 2px var(--text-secondary);
+
   box-shadow: 0rem 0rem 0.5rem rgba(0, 0, 0, 0.2);
 
-  background-color: var(--background-light);
+  background-color: var(--bg-darker);
   padding: 2rem;
 
   .dropzoneCenter {
     display: flex;
     flex-direction: column;
     align-items: center;
-    img {
-      height: 8rem;
-      width: auto;
-      margin: 0 auto;
-      opacity: 0.2;
-      margin-bottom: 2rem;
-    }
 
-    p {
-      font-size: 1.75rem;
+    .icon {
+      width: 5rem;
+
+      & > * {
+        fill: var(--text-secondary);
+      }
+
+      .iconArrow {
+        animation: moveUpAndDown 3s ease-in-out infinite;
+      }
     }
+    p {
+      text-align: center;
+      color: var(--text-secondary);
+
+      strong {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      font-size: 2.2rem;
+    }
+  }
+}
+
+@keyframes moveUpAndDown {
+  0% {
+    transform: translateY(-0.5rem);
+  }
+  50% {
+    transform: translateY(0rem);
+  }
+  100% {
+    transform: translateY(-0.5rem);
   }
 }
