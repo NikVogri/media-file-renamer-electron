@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import Layout from './components/Layout/Layout';
 import GlobalContextProvider from './contexts/GlobalContext';
 
 import './globals.css';
@@ -11,10 +12,12 @@ export default function App() {
   return (
     <GlobalContextProvider>
       <Router>
-        <Switch>
-          <Route path="/settings" component={Settings} />
-          <Route path="/" component={Rename} />
-        </Switch>
+        <Layout>
+          <Switch>
+            <Route path="/" exact component={Rename} />
+            <Route path="/settings" component={Settings} />
+          </Switch>
+        </Layout>
       </Router>
     </GlobalContextProvider>
   );
