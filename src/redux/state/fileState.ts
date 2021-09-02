@@ -6,6 +6,9 @@ export interface FileState {
   movingStep: MovingStep;
   moveErrorMessage: null | string;
   currentlyMovingFile: null | MovingFile;
+  filesWithMissingData: FileManager[];
+  fetchResults: unknown[];
+  fetchingForFile: FileManager | null;
 }
 
 export const initState: FileState = {
@@ -13,4 +16,7 @@ export const initState: FileState = {
   movingStep: MovingStep.none,
   moveErrorMessage: null,
   currentlyMovingFile: null,
+  filesWithMissingData: [],
+  fetchResults: [],
+  fetchingForFile: null,
 };
