@@ -1,0 +1,49 @@
+.formatInput {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .label {
+    font-size: 1.45rem;
+    color: var(--bg-ui-primary);
+  }
+
+  .pathInput {
+    width: 100%;
+    padding: 0.5rem;
+    background: var(--bg-darker);
+    color: var(--text-primary);
+    border: solid 1px var(--text-secondary);
+    font-weight: 500;
+    font-family: inherit;
+    min-height: 3rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+
+    outline: none;
+
+    max-width: 65%;
+
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 0.3rem var(--bg-ui-primary);
+    }
+  }
+
+  .diskSelect {
+    margin-left: auto;
+    padding: 0.5rem 1rem;
+    background: var(--bg-darker);
+    color: var(--text-primary);
+    border: solid 1px var(--text-secondary);
+    border-right: none;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 0.5rem 0 0 0.5rem;
+    outline: none;
+
+    &:focus {
+      box-shadow: 0 0 0.3rem var(--bg-ui-primary);
+    }
+  }
+}

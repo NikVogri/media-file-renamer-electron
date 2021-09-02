@@ -1,13 +1,19 @@
 export interface SettingsState {
-  template: string;
+  movieTemplate: string;
+  tvTemplate: string;
   foundDrives: string[];
-  selectedDrive: string | null;
+  tvSelectedDrive: string;
+  movieSelectedDrive: string;
+  tmdbApiKey: string;
 }
 
 const initState: SettingsState = {
-  template: 'movies/{title}/{title} - {year}',
+  movieTemplate: 'movies/{title}/{title} - {year}',
+  tvTemplate: 'tv/{title}/{title} - S{season}E{episode} - {episodeTitle}',
   foundDrives: [],
-  selectedDrive: 'G:',
+  tvSelectedDrive: '',
+  movieSelectedDrive: '',
+  tmdbApiKey: '',
 };
 
 export default initState;

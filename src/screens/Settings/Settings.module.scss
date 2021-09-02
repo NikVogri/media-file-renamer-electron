@@ -1,75 +1,11 @@
 .settings {
-  display: flex;
-  height: 85vh;
-  width: 100%;
+  h1 {
+    margin-bottom: 2rem;
+    font-size: 3rem;
+    color: var(--text-primary);
+  }
 
   .core {
     padding: 2rem;
-    width: 100%;
-
-    h1 {
-      margin-bottom: 2rem;
-      font-size: 3rem;
-    }
-  }
-
-  .form {
-    width: 100%;
-    padding: 2rem 0;
-
-    span {
-      width: 25rem;
-    }
-
-    & .formGroup {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-
-      input {
-        max-width: 70%;
-        flex-grow: 1;
-        font-size: 1.5rem;
-        padding: 0.25rem 1rem;
-        flex: 2;
-        max-width: 75%;
-      }
-
-      label {
-        width: 100%;
-
-        display: flex;
-        justify-content: space-between;
-
-        & > * {
-          font-size: 1.4rem;
-        }
-      }
-
-      button {
-        min-width: 5rem;
-      }
-    }
-
-    & .mapping {
-      width: 100%;
-
-      span {
-        font-size: 1.4rem;
-      }
-
-      & div {
-        display: flex;
-        justify-content: flex-end;
-        flex: 1;
-        max-width: 75%;
-
-        & input {
-          max-width: 100%;
-          flex-grow: 1;
-        }
-      }
-    }
   }
 }

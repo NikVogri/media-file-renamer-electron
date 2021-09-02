@@ -1,0 +1,87 @@
+.form {
+  color: var(--text-secondary);
+  font-weight: 500;
+
+  width: 100%;
+  padding: 2rem 0;
+
+  button {
+    padding: 0.65rem 3rem;
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 0 0.5rem var(--bg-ui-primary);
+    border: solid 1px var(--bg-ui-primary);
+    background-color: var(--bg-ui-primary);
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 1.35rem;
+    font-weight: 600;
+    outline: none;
+    margin-top: 2rem;
+
+    &:disabled {
+      opacity: 0.75;
+      cursor: not-allowed;
+    }
+  }
+
+  & .formGroup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      background: var(--bg-darker);
+      color: var(--text-primary);
+      border: solid 1px var(--text-secondary);
+      font-weight: 500;
+      font-family: inherit;
+      min-height: 3rem;
+      border-radius: 0.5rem;
+
+      max-width: 71%;
+      outline: none;
+
+      &:hover,
+      &:focus {
+        box-shadow: 0 0 0.3rem var(--bg-ui-primary);
+      }
+    }
+
+    label {
+      width: 100%;
+      font-size: 1.45rem;
+      color: var(--bg-ui-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      & > * {
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  & .mapping {
+    width: 100%;
+
+    span {
+      font-size: 1.4rem;
+    }
+
+    & div {
+      display: flex;
+      justify-content: flex-end;
+      flex: 1;
+      max-width: 75%;
+
+      & input {
+        max-width: 100%;
+        flex-grow: 1;
+      }
+    }
+  }
+}

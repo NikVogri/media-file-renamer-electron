@@ -1,5 +1,6 @@
 import { AnyAction } from 'redux';
 import * as types from '../../constants/actionTypes';
+import { BasicSettings, ContentType } from '../../lib/tsDefinitions';
 
 export const setFoundDrives = (drives: string[]): AnyAction => {
   return {
@@ -8,16 +9,22 @@ export const setFoundDrives = (drives: string[]): AnyAction => {
   };
 };
 
-export const setSelectedDrive = (drive: string): AnyAction => {
+export const setBasicSettings = (settings: BasicSettings): AnyAction => {
   return {
-    type: types.SET_SELECTED_DRIVE,
-    payload: drive,
+    type: types.SET_BASIC_SETTINGS,
+    payload: settings,
   };
 };
 
-export const setPathTemplate = (template: string): AnyAction => {
+export const setSelectedDrive = (
+  drive: string,
+  contentType: ContentType
+): AnyAction => {
   return {
-    type: types.SET_PATH_TEMPLATE,
-    payload: template,
+    type:
+      contentType === ContentType.tv
+        ? types.SET_TV_SELECTED_DRIVE
+        : types.SET_MOVIE_SELECTED_DRIVE,
+    payload: drive,
   };
 };
