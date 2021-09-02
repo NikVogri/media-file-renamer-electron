@@ -1,0 +1,19 @@
+.baseModal {
+  position: absolute;
+  height: 80vh;
+  width: 80vw;
+  z-index: 9999;
+  top: 50%;
+  left: 50%;
+  border-radius: 0.5rem;
+
+  transform: translate(-50%, -50%);
+
+  .modalContainer {
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-darker);
+    box-shadow: 0.5rem 0.5rem 0.5rem rgba(0, 0, 0, 0.35);
+    padding: 2rem;
+  }
+}
