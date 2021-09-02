@@ -1,32 +1,21 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Icon } from '../../lib/tsDefinitions';
 
 import styles from './LeftNavbar.module.scss';
 
 import LeftNavIcon from '../LeftNavIcon/LeftNavIcon';
 
-const LeftNavbar: React.FC<LeftNavbarProps> = () => {
+const LeftNavbar: React.FC = () => {
   const [show, setShow] = useState(false);
-
   const { pathname } = useLocation();
-
-  console.log(pathname);
-
-  const handleHover = () => {
-    setShow(true);
-  };
-
-  const handleLeave = () => {
-    setShow(false);
-  };
 
   return (
     <nav
       className={`${styles.left_navbar} ${show ? styles.show : ''}`}
-      onMouseOver={handleHover}
-      onMouseLeave={handleLeave}
-      onFocus={handleHover}
+      onMouseOver={() => setShow(true)}
+      onMouseLeave={() => setShow(false)}
+      onFocus={() => {}}
     >
       <h1>Re-namer</h1>
       <ul>
