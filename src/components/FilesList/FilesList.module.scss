@@ -1,6 +1,7 @@
 .filesList {
-  height: 100%;
-  width: 50%;
+  position: relative;
+  height: 90%;
+  width: 100%;
 
   overflow: auto;
 
@@ -8,5 +9,8 @@
   box-shadow: 0rem 0rem 0.5rem rgba(0, 0, 0, 0.2);
 
   background-color: var(--bg-darker);
-  padding: 1rem;
+
+  & > div {
+    padding: 1rem;
+  }
 }
