@@ -2,44 +2,55 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-import LeftNavbar from '../../components/LeftNavbar/LeftNavbar';
-import MovingStepScreen from '../../components/MovingStepScreen/MovingStepScreen';
 import RenameControlls from '../../components/RenameControlls/RenameControlls';
-import SelectedFilesList from '../../components/SelectedFilesList/SelectedFilesList';
-import RenamedFilesExample from '../../components/RenamedFilesExample/RenamedFilesExample';
 
 import styles from './Rename.module.scss';
+import { FileManager } from '../../lib/FileManager';
+import FilesList from '../../components/FilesList/FilesList';
+import FileDropzone from '../../components/FileDropzone/FileDropzone';
+import FilesListWithDropzone from '../../components/FilesListWithDropzone/FilesListWithDropzone';
 
 const Rename: React.FC = () => {
   const movingStep = useSelector((state: RootState) => state.file.movingStep);
+  const files = useSelector((state: RootState) => state.file.files);
   const moveErrorMessage = useSelector(
     (state: RootState) => state.file.moveErrorMessage
   );
 
-  if (movingStep > 0) {
-    return (
-      <main className={styles.renamer}>
-        <MovingStepScreen
-          movingStep={movingStep}
-          failReason={moveErrorMessage}
-        />
-      </main>
+  let render;
+
+  if (!files.length) {
+    render = (
+      <div className={styles.dropFiles}>
+        <FileDropzone />
+      </div>
     );
   }
 
-  return (
-    <main className={styles.renamer}>
-      <LeftNavbar currentlyActive="renamer" />
-      <div className={styles.core}>
-        <h1>Rename</h1>
-        <div className={styles.flex}>
-          <SelectedFilesList />
-          <RenameControlls />
-          <RenamedFilesExample />
-        </div>
+  if (files.length) {
+    render = (
+      <div className={styles.convertFiles}>
+        <FilesListWithDropzone
+          files={files.filter((f: FileManager) => !f.edited)}
+        />
+        <RenameControlls />
+        <FilesList files={files.filter((f: FileManager) => f.edited)} />
       </div>
-    </main>
-  );
+    );
+  }
+
+  // if (movingStep > 0) {
+  //   return (
+  //     <main className={styles.renamer}>
+  //       <MovingStepScreen
+  //         movingStep={movingStep}
+  //         failReason={moveErrorMessage}
+  //       />
+  //     </main>
+  //   );
+  // }
+
+  return <div className={styles.renamer}>{render}</div>;
 };
 
 export default Rename;
