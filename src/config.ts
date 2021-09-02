@@ -8,3 +8,7 @@ export const MAPPABLE_STRINGS = [
   '{episode}',
   '{episodeTitle}',
 ];
+export const REQUIRED_FILE_DATA = {
+  movie: ['title', 'year'],
+  tv: ['episodeTitle', 'episode', 'season', 'year', 'title'],
+};
