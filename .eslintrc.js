@@ -13,6 +13,7 @@ module.exports = {
     'no-await-in-loop': 'off',
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
     'react/prop-types': 'off',
+    'no-restricted-syntax': 'off',
   },
   parserOptions: {
     ecmaVersion: 2020,
