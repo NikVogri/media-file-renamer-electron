@@ -1,0 +1,43 @@
+.filesListWithDropzone {
+  position: relative;
+  height: 100%;
+  width: 100%;
+
+  .addAdditional {
+    position: absolute;
+    z-index: 10;
+    height: 5rem;
+    width: calc(200% + 3rem);
+    background-color: var(--bg);
+    bottom: 0;
+
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 1.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+
+    border: solid 2px var(--bg-darker);
+
+    transition: all 0.25s ease-in;
+
+    &:hover {
+      svg {
+        fill: var(--text-primary);
+      }
+      color: var(--text-primary);
+    }
+
+    svg {
+      transition: all 0.3s ease-in;
+      fill: var(--text-secondary);
+      height: 1.7rem;
+      width: auto;
+      margin-right: 0.25rem;
+    }
+  }
+}
