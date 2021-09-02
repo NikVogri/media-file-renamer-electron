@@ -1,0 +1,49 @@
+.inner {
+  height: 100%;
+  overflow: auto;
+
+  ul {
+    list-style: none;
+    height: 100%;
+    padding: 2rem 0;
+
+    button {
+      display: block;
+      width: 100%;
+      border: none;
+      background-color: var(--bg-darker);
+      color: var(--text-primary);
+
+      li {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        background-color: var(--bg);
+
+        &:hover {
+          background-color: var(--bg-ui-primary);
+          cursor: pointer;
+        }
+
+        h5 {
+          font-size: 1.5rem;
+        }
+
+        div {
+          text-align: left;
+        }
+
+        img,
+        .noImage {
+          margin-right: 2rem;
+          height: 5rem;
+          width: 4rem;
+          background-color: black;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
