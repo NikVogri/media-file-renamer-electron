@@ -6,6 +6,7 @@ import { Path } from './Path';
 
 import { MAPPABLE_STRINGS } from '../config';
 import { ContentType, FileData } from './tsDefinitions';
+import { addZeroPrefixToNumber } from './addZeroPrefixToNumber';
 
 export class FileManager {
   public id: string;
@@ -52,36 +53,45 @@ export class FileManager {
   }
 
   public async renameAndMove() {
-    const oldPath = `${this.path.build()}${path.sep}${this.name}`;
-    const newPath = `${this.newPath.build()}${path.sep}${this.newName}`;
+    const oldFullFilePath = `${this.path.build()}${path.sep}${this.name}`;
+    const newFullFilePath = `${this.newPath.build()}${path.sep}${this.newName}`;
 
-    await fs.move(oldPath, newPath);
+    await fs.move(oldFullFilePath, newFullFilePath);
   }
 
-  public applyTemplate(template: string) {
+  public applyTemplate(template: string): void {
     let filledTemplate = template as string | null;
     this.missingData = [];
 
-    for (let i = 0; i < MAPPABLE_STRINGS.length; i++) {
-      const ms = MAPPABLE_STRINGS[i];
+    for (const ms of MAPPABLE_STRINGS) {
       filledTemplate = this.applyValueToTemplate(ms, filledTemplate as string);
-
       if (!filledTemplate) break; // this happens when some of the requested data is missing
     }
 
-    if (filledTemplate) {
-      const originalExtension = this.name.split('.').pop() as string;
-      const newFilenameWithoutExtension = filledTemplate
-        .split('/')
-        .pop() as string;
-      this.newName = `${newFilenameWithoutExtension}.${originalExtension}`;
-      this.newPath = new Path(filledTemplate);
-      this.edited = true;
+    if (!filledTemplate) {
+      return;
     }
+
+    const originalExtension = this.name.split('.').pop();
+    const newFilenameWithoutExtension = filledTemplate.split('/').pop();
+
+    this.newName = `${newFilenameWithoutExtension}.${originalExtension}`;
+    this.newPath = new Path(filledTemplate);
+    this.edited = true;
   }
 
   private parseFileName = (name: string) => {
-    return ptt.parse(name);
+    const parsedData = ptt.parse(name) as FileData;
+
+    if ('episode' in parsedData) {
+      parsedData.pEpisode = addZeroPrefixToNumber(parsedData.episode as number);
+    }
+
+    if ('season' in parsedData) {
+      parsedData.pSeason = addZeroPrefixToNumber(parsedData.season as number);
+    }
+
+    return parsedData;
   };
 
   private determiteContentType = (data: FileData) => {
