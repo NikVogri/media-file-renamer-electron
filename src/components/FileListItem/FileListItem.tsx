@@ -64,17 +64,19 @@ const FileListItem: React.FC<FileListItemProps> = ({ file, showEdited }) => {
 
       {fileIsMissingData && (
         <div className={styles.warning}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            className={styles.errorIcon}
-          >
-            <g>
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
-            </g>
-          </svg>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="36"
+              height="36"
+              viewBox="0 0 36 36"
+              className={styles.errorIcon}
+            >
+              <g>
+                <path d="M18 3C9.72 3 3 9.72 3 18s6.72 15 15 15c8.28 0 15-6.72 15-15S26.28 3 18 3zm1 22h-2v-2h2v2zm0-5h-2v-9h2v9z" />
+              </g>
+            </svg>
+          </div>
           <div className={styles.hoverErrorDescription}>
             <p>File is missing the following data:</p>
             <ul>
