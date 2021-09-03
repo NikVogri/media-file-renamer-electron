@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { FetchedData } from '../../lib/tsDefinitions';
 import { addFetchedDataToFile } from '../../redux/actions/fileActionsCreator';
 import BaseModal from '../BaseModal/BaseModal';
 
@@ -8,7 +9,7 @@ import styles from './SelectedCorrectContentFromList.module.scss';
 interface SelectedCorrectContentFromListProps {
   show: boolean;
   setShow: () => void;
-  fetchResults: unknown[];
+  fetchResults: FetchedData[];
 }
 
 const SelectedCorrectContentFromList: React.FC<SelectedCorrectContentFromListProps> = ({
@@ -17,7 +18,7 @@ const SelectedCorrectContentFromList: React.FC<SelectedCorrectContentFromListPro
   fetchResults,
 }) => {
   const dispatch = useDispatch();
-  const handleSelect = (fetchResult: any) => {
+  const handleSelect = (fetchResult: FetchedData) => {
     dispatch(addFetchedDataToFile(fetchResult));
   };
 
@@ -26,7 +27,7 @@ const SelectedCorrectContentFromList: React.FC<SelectedCorrectContentFromListPro
       <div className={styles.inner}>
         <h3>Select One:</h3>
         <ul>
-          {fetchResults.map((fr: any) => (
+          {fetchResults.map((fr: FetchedData) => (
             <button onClick={() => handleSelect(fr)} type="button" key={fr.id}>
               <li>
                 {fr.posterPath ? (
@@ -39,7 +40,7 @@ const SelectedCorrectContentFromList: React.FC<SelectedCorrectContentFromListPro
                 )}
                 <div>
                   <h5>{fr.title}</h5>
-                  <span>{fr.releaseDate}</span>
+                  <span>{fr.year}</span>
                 </div>
               </li>
             </button>
