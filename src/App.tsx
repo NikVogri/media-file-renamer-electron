@@ -6,6 +6,7 @@ import SelectedCorrectContentFromList from './components/SelectedCorrectContentF
 import GlobalContextProvider from './contexts/GlobalContext';
 
 import './globals.css';
+import { FetchedData } from './lib/tsDefinitions';
 import { toggleShowUserContentSelectionModal } from './redux/actions/uiActionsCreator';
 import { RootState } from './redux/store';
 
@@ -30,7 +31,7 @@ export default function App() {
       <SelectedCorrectContentFromList
         show={showContentListPrompt}
         setShow={() => dispatch(toggleShowUserContentSelectionModal())}
-        fetchResults={fetchResults}
+        fetchResults={fetchResults as FetchedData[]}
       />
     </GlobalContextProvider>
   );

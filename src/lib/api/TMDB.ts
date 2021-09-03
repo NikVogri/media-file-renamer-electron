@@ -69,6 +69,7 @@ export class TMDBApi {
       id: d.id,
       title: d.name,
       year: Number(d.first_air_date.slice(0, 4)),
+      posterPath: d.poster_path,
     }));
 
   private normalizeMovieData = (

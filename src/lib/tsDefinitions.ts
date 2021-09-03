@@ -26,10 +26,14 @@ export interface TVData {
   season?: number;
   year?: number;
   episodeTitle?: string;
+  posterPath?: string;
+  pEpisode?: string;
+  pSeason?: string;
 }
 export interface MovieData {
   title: string;
   year?: number;
+  posterPath?: string;
 }
 
 export enum ContentType {
@@ -69,6 +73,7 @@ export interface MovieAdditionalData {
   id: number;
   title: string;
   originalTitle?: string;
+  posterPath?: string;
   year: number;
 }
 
@@ -82,6 +87,7 @@ export interface EpisodeAdditionalData {
 export interface TVAdditionalData {
   id: number;
   title: string;
+  posterPath?: string;
   year: number;
 }
 
@@ -92,3 +98,5 @@ export interface BasicSettings {
   tvSelectedDrive: string;
   tmdbApiKey: string;
 }
+
+export type FetchedData = MovieAdditionalData | TVAdditionalData;
