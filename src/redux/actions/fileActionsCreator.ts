@@ -19,19 +19,24 @@ import { getFilesWithMissingData } from '../../lib/getFilesWithMissingData';
 import { GetApi } from '../../lib/api/GetApi';
 import { toggleShowUserContentSelectionModal } from './uiActionsCreator';
 
-export const addFiles = (files: unknown[]): AnyAction => {
-  let payload: FileManager[];
+export const addFiles = (
+  files: File[]
+): ThunkAction<void, RootState, unknown, AnyAction> => async (
+  dispatch,
+  getState
+) => {
+  const { files: allFiles } = getState().file;
+  const incomingFiles = (files as File[]).map((f: File) => new FileManager(f));
 
-  if (files.every((f: unknown) => f instanceof FileManager)) {
-    payload = files as FileManager[];
-  } else {
-    payload = (files as File[]).map((f: File) => new FileManager(f));
-  }
+  const uniqueFiles = incomingFiles.filter(
+    (infile: FileManager) =>
+      !allFiles.some((f: FileManager) => f.name === infile.name)
+  );
 
-  return {
+  dispatch({
     type: types.SET_FILES,
-    payload,
-  };
+    payload: uniqueFiles,
+  });
 };
 
 export const setMovingStep = (nextStep: MovingStep): AnyAction => {
