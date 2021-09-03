@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import SelectedCorrectContentFromList from './components/SelectedCorrectContentFromList/SelectedCorrectContentFromList';
-import GlobalContextProvider from './contexts/GlobalContext';
 
 import './globals.css';
 import { FetchedData } from './lib/tsDefinitions';
@@ -19,7 +18,7 @@ export default function App() {
   const { fetchResults } = useSelector((state: RootState) => state.file);
 
   return (
-    <GlobalContextProvider>
+    <main>
       <Router>
         <Layout>
           <Switch>
@@ -33,6 +32,6 @@ export default function App() {
         setShow={() => dispatch(toggleShowUserContentSelectionModal())}
         fetchResults={fetchResults as FetchedData[]}
       />
-    </GlobalContextProvider>
+    </main>
   );
 }
