@@ -6,11 +6,11 @@ import { FileManager } from '../../lib/FileManager';
 import { extractReadableErrorMessage } from '../../lib/moveErrorHandler';
 import {
   ContentType,
-  FileData,
+  EpisodeAdditionalData,
+  FetchedData,
   MovieAdditionalData,
   MovingStep,
   TVAdditionalData,
-  TVData,
 } from '../../lib/tsDefinitions';
 import { RootState } from '../store';
 
@@ -141,7 +141,7 @@ export const renameAndMoveFiles = (): ThunkAction<
   } catch (err) {
     console.log(err);
     dispatch(setMovingStep(MovingStep.fail));
-    dispatch(setMoveErrorStatus(extractReadableErrorMessage(err)));
+    dispatch(setMoveErrorStatus(extractReadableErrorMessage(err as Error)));
   }
 };
 
@@ -172,8 +172,10 @@ export const fetchAndApplyDataToTV = (
     (f: FileManager) =>
       f.data.title === fetchingForFile.data.title &&
       f.data.episode === fetchingForFile.data.episode &&
-      fetchingForFile.season.season === f.data.season
+      f.data.season === fetchingForFile.data.season
   );
+
+  // TODO: change the logic so it will update ALL the files (whole season, not just one file at a time)
 
   if (!updateFile) {
     throw new Error('Update file unavailable');
@@ -184,12 +186,37 @@ export const fetchAndApplyDataToTV = (
     fetchingForFile.data.season
   );
 
-  updateFile.data = { ...updateFile.data, ...fetchedData };
-  updateFile.missingData = [];
+  const updatedFiles = allFiles.map((f: FileManager) => {
+    if (f.data.title !== fetchingForFile.data.title) {
+      return f;
+    }
 
-  dispatch(addTemplatedFiles(allFiles, true));
+    const additionalDataForThisFile = fetchedData.find(
+      (fd: EpisodeAdditionalData) =>
+        fd.episode === f.data.episode && fd.season === f.data.season
+    );
+
+    if (!additionalDataForThisFile) {
+      return f;
+    }
+
+    f.data = { ...f.data, ...additionalDataForThisFile };
+    f.missingData = [];
+
+    return f;
+  });
+
+  dispatch(addTemplatedFiles(updatedFiles, true));
   dispatch(setFetchResults([]));
 };
+
+const findMovieFileToUpdate = (
+  allFiles: FileManager[],
+  searchedForFile: FileManager
+) =>
+  allFiles.find(
+    (f: FileManager) => f.data.title === searchedForFile.data.title
+  );
 
 export const applyDataToMovie = (
   fetchedData: MovieAdditionalData
@@ -199,9 +226,7 @@ export const applyDataToMovie = (
 ) => {
   const { fetchingForFile, files } = getState().file;
   const allFiles = [...files] as FileManager[];
-  const updateFile = allFiles.find(
-    (f: FileManager) => f.data.title === fetchingForFile.data.title
-  );
+  const updateFile = findMovieFileToUpdate(allFiles, fetchingForFile);
 
   if (!updateFile) {
     throw new Error('Update file unavailable');
@@ -215,7 +240,7 @@ export const applyDataToMovie = (
 };
 
 export const addFetchedDataToFile = (
-  data: any
+  data: FetchedData
 ): ThunkAction<void, RootState, unknown, AnyAction> => async (
   dispatch,
   getState
