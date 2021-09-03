@@ -5,8 +5,6 @@ import { useDispatch } from 'react-redux';
 import { isSupportedFile } from '../../lib/fileHelpers';
 import { addFiles } from '../../redux/actions/fileActionsCreator';
 
-import dropItemsIcon from '../../../assets/icons/drop-items.svg';
-
 import styles from './FileDropzone.module.scss';
 
 const FileDropzone: React.FC = () => {
