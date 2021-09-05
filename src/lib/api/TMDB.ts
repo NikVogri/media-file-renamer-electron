@@ -8,6 +8,7 @@ import {
   TVAdditionalData,
 } from '../tsDefinitions';
 import { tmdbRootApiUrl } from '../../constants/urls';
+import { removeIllegalChars } from '../fileHelpers';
 
 export class TMDBApi {
   private rootUrl: string = tmdbRootApiUrl;
@@ -67,7 +68,7 @@ export class TMDBApi {
   private normalizeTVData = (results: TmdbTVResponse[]): TVAdditionalData[] =>
     results.map((d: TmdbTVResponse) => ({
       id: d.id,
-      title: d.name,
+      title: removeIllegalChars(d.name),
       year: Number(d.first_air_date.slice(0, 4)),
       posterPath: d.poster_path,
     }));
@@ -77,7 +78,7 @@ export class TMDBApi {
   ): MovieAdditionalData[] =>
     results.map((d: TmdbMovieResponse) => ({
       id: d.id,
-      title: d.title,
+      title: removeIllegalChars(d.title),
       year: Number(d.release_date.slice(0, 4)),
       posterPath: d.poster_path,
     }));

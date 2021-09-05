@@ -1,4 +1,4 @@
-import { ALLOWED_FILE_TYPES } from '../config';
+import { ALLOWED_FILE_TYPES, ILLEGAL_FILENAME_CHARS } from '../config';
 
 export const isSubtitle = (name: string): boolean => {
   return name.slice(-4) === '.srt';
@@ -14,4 +14,14 @@ export const isVideo = (fileType: string): boolean => {
 
 export const isSupportedFile = (file: File) => {
   return isSubtitle(file.name) || isAllowedFileType(file.type);
+};
+
+export const removeIllegalChars = (str: string): string => {
+  let output = str;
+
+  for (const illegalChar of ILLEGAL_FILENAME_CHARS) {
+    output = output.replaceAll(illegalChar, '');
+  }
+
+  return output;
 };

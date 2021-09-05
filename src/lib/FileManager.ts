@@ -4,9 +4,10 @@ import ptt from 'parse-torrent-title';
 import { v4 as uuid } from 'uuid';
 import { Path } from './Path';
 
-import { MAPPABLE_STRINGS } from '../config';
+import { ILLEGAL_FILENAME_CHARS, MAPPABLE_STRINGS } from '../config';
 import { ContentType, FileData } from './tsDefinitions';
 import { addZeroPrefixToNumber } from './addZeroPrefixToNumber';
+import { removeIllegalChars } from './fileHelpers';
 
 export class FileManager {
   public id: string;
@@ -73,7 +74,9 @@ export class FileManager {
     }
 
     const originalExtension = this.name.split('.').pop();
-    const newFilenameWithoutExtension = filledTemplate.split('/').pop();
+    const newFilenameWithoutExtension = removeIllegalChars(
+      filledTemplate.split('/').pop() as string
+    );
 
     this.newName = `${newFilenameWithoutExtension}.${originalExtension}`;
     this.newPath = new Path(filledTemplate);
