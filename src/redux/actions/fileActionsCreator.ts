@@ -17,7 +17,12 @@ import { RootState } from '../store';
 import * as types from '../../constants/actionTypes';
 import { getFilesWithMissingData } from '../../lib/getFilesWithMissingData';
 import { GetApi } from '../../lib/api/GetApi';
-import { toggleShowUserContentSelectionModal } from './uiActionsCreator';
+import {
+  setCurrentlyMovingFile,
+  setMoveErrorStatus,
+  setMovingStep,
+  toggleShowUserContentSelectionModal,
+} from './uiActionsCreator';
 
 export const addFiles = (
   files: File[]
@@ -39,10 +44,10 @@ export const addFiles = (
   });
 };
 
-export const setMovingStep = (nextStep: MovingStep): AnyAction => {
+const setFetchResults = (fetchResults: unknown[]): AnyAction => {
   return {
-    type: types.SET_MOVING_STEP,
-    payload: nextStep,
+    type: types.SET_FETCH_RESULTS,
+    payload: fetchResults,
   };
 };
 
@@ -106,26 +111,6 @@ export const applyTemplateToFiles = (): ThunkAction<
   dispatch(addTemplatedFiles(filesWithAppliedTemplate, true));
 };
 
-export const setMoveErrorStatus = (error: string): AnyAction => {
-  return {
-    type: types.SET_FILE_MOVE_ERROR_MESSAGE,
-    payload: error,
-  };
-};
-
-const setCurrentlyMovingFile = (
-  file: FileManager,
-  index: number
-): AnyAction => {
-  return {
-    type: types.SET_CURRENTLY_MOVING_FILE,
-    payload: {
-      name: file.newName,
-      place: index + 1,
-    },
-  };
-};
-
 export const renameAndMoveFiles = (): ThunkAction<
   void,
   RootState,
@@ -141,27 +126,13 @@ export const renameAndMoveFiles = (): ThunkAction<
       await files[i].renameAndMove();
     }
 
-    dispatch({ type: types.CLEAR_CURRENTLY_MOVING_FILE });
+    dispatch(setCurrentlyMovingFile(null, files.length));
     dispatch(setMovingStep(MovingStep.success));
   } catch (err) {
     console.log(err);
     dispatch(setMovingStep(MovingStep.fail));
     dispatch(setMoveErrorStatus(extractReadableErrorMessage(err as Error)));
   }
-};
-
-export const setFetchResults = (fetchResults: unknown[]): AnyAction => {
-  return {
-    type: types.SET_FETCH_RESULTS,
-    payload: fetchResults,
-  };
-};
-
-export const setFetchingForFile = (file: FileManager): AnyAction => {
-  return {
-    type: types.SET_FETCHING_FOR_FILE,
-    payload: file,
-  };
 };
 
 export const fetchAndApplyDataToTV = (
@@ -264,6 +235,13 @@ export const addFetchedDataToFile = (
     console.log(err);
     // TODO: global application error
   }
+};
+
+const setFetchingForFile = (file: FileManager): AnyAction => {
+  return {
+    type: types.SET_FETCHING_FOR_FILE,
+    payload: file,
+  };
 };
 
 export const fetchAdditionalFileData = (
