@@ -1,15 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FileManager } from '../../lib/FileManager';
+import { RootState } from '../../redux/store';
+import { setClearItems } from '../../redux/actions/uiActionsCreator';
 import {
   applyTemplateToFiles,
   renameAndMoveFiles,
 } from '../../redux/actions/fileActionsCreator';
 
 import styles from './RenameControlls.module.scss';
-
-import * as types from '../../constants/actionTypes';
-import { RootState } from '../../redux/store';
 
 const RenameControlls: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const RenameControlls: React.FC = () => {
 
   const applyRenameTemplate = () => dispatch(applyTemplateToFiles());
   const handleRenameAndMoveFiles = async () => dispatch(renameAndMoveFiles());
-  const handleClearItems = () => dispatch({ type: types.CLEAR_FILES });
+  const handleClearItems = () => dispatch(setClearItems());
 
   const allFilesWereEdited = files.length > 0 && files.every((f) => f.edited);
 

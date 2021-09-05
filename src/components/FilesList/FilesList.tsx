@@ -14,8 +14,14 @@ const FilesList: React.FC<RenamedFilesExampleProps> = ({ files }) => {
     <div className={styles.filesList}>
       <div>
         <ul>
-          {files.map((file: FileManager) => (
-            <FileListItem key={file.id} file={file} showEdited />
+          {files.map((file: FileManager, index: number) => (
+            <FileListItem
+              key={file.id}
+              file={file}
+              index={index}
+              filesCount={files.length}
+              showEdited
+            />
           ))}
         </ul>
       </div>

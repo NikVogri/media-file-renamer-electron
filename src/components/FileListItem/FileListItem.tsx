@@ -2,16 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import path from 'path';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FileManager } from '../../lib/FileManager';
 import { fetchAdditionalFileData } from '../../redux/actions/fileActionsCreator';
 import { isVideo } from '../../lib/fileHelpers';
 
 import styles from './FileListItem.module.scss';
+import { RootState } from '../../redux/store';
 
 interface FileListItemProps {
   file: FileManager;
   showEdited: boolean;
+  index: number;
+  filesCount: number;
 }
 
 const videoIcon = (
@@ -20,6 +23,7 @@ const videoIcon = (
     width="48"
     height="48"
     viewBox="0 0 48 48"
+    className={styles.contentIcon}
   >
     <title>ic_movie_creation_48px</title>
     <g className="nc-icon-wrapper" fill="#1C81F3">
@@ -34,6 +38,7 @@ const subtitleIcon = (
     width="48"
     height="48"
     viewBox="0 0 48 48"
+    className={styles.contentIcon}
   >
     <title>ic_subtitles_48px</title>
     <g className="nc-icon-wrapper" fill="#1C81F3">
@@ -42,11 +47,23 @@ const subtitleIcon = (
   </svg>
 );
 
-const FileListItem: React.FC<FileListItemProps> = ({ file, showEdited }) => {
+const FileListItem: React.FC<FileListItemProps> = ({
+  file,
+  index,
+  filesCount,
+  showEdited,
+}) => {
   const dispatch = useDispatch();
-  const fileIsVideo = isVideo(file.type);
+  const currentlyMovingFile = useSelector(
+    (state: RootState) => state.ui.currentlyMovingFile
+  );
 
+  const fileIsVideo = isVideo(file.type);
   const fileIsMissingData = file.missingData.length > 0;
+  const fileIsCurrentlyMoving = currentlyMovingFile?.id === file.id;
+  const fileIsAlreadyMoved =
+    !fileIsCurrentlyMoving && currentlyMovingFile?.index > index;
+  const isLastFile = index === filesCount - 1;
 
   const handleFetchData = () => dispatch(fetchAdditionalFileData(file));
 
@@ -90,6 +107,33 @@ const FileListItem: React.FC<FileListItemProps> = ({ file, showEdited }) => {
             </button>
           </div>
         </div>
+      )}
+
+      {fileIsCurrentlyMoving && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 31 31"
+          className={`${styles.statusIcon} ${styles.statusIcon_moving}`}
+        >
+          <g>
+            <path d="M17.28 2.34v1c0 0.65 0.44 1.21 1.06 1.39 4.65 1.3 8.06 5.56 8.06 10.63 0 6.1-4.94 11.04-11.04 11.04-6.1 0-11.04-4.94-11.04-11.04 0-5.07 3.41-9.33 8.06-10.63 0.62-0.17 1.06-0.74 1.06-1.39v-1c0-0.94-0.89-1.63-1.8-1.39-6.44 1.66-11.19 7.52-11.16 14.49 0.04 8.22 6.69 14.82 14.91 14.8 8.2-0.02 14.85-6.67 14.85-14.88 0-6.94-4.75-12.77-11.17-14.41-0.91-0.23-1.79 0.46-1.79 1.39z" />
+          </g>
+        </svg>
+      )}
+      {fileIsAlreadyMoved && (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 31 31"
+          className={`${styles.statusIcon} ${styles.statusIcon_moved}`}
+        >
+          <g>
+            <path d="M30.24 15.36c0 8.22-6.66 14.88-14.88 14.88s-14.88-6.66-14.88-14.88 6.66-14.88 14.88-14.88 14.88 6.66 14.88 14.88z m-16.6 7.88l11.04-11.04c0.37-0.37 0.37-0.98 0-1.36l-1.36-1.36c-0.37-0.37-0.98-0.37-1.36 0l-9 9.01-4.2-4.21c-0.37-0.37-0.98-0.37-1.36 0l-1.36 1.36c-0.37 0.37-0.37 0.98 0 1.36l6.24 6.24c0.37 0.37 0.98 0.37 1.36 0z" />
+          </g>
+        </svg>
       )}
     </li>
   );
