@@ -36,6 +36,14 @@ const LeftNavbar: React.FC = () => {
         </li>
       </ul>
 
+      {!show && (
+        <div className={styles.expand}>
+          <span />
+          <span />
+          <span />
+        </div>
+      )}
+
       <div className={styles.disclaimer}>
         <p>Version: 0.0.2</p>
       </div>

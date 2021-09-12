@@ -78,4 +78,26 @@
       }
     }
   }
+
+  .expand {
+    height: 2.5rem;
+    width: 1.25rem;
+
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: 1rem;
+
+    display: flex;
+    justify-content: space-between;
+
+    & span {
+      flex: 1;
+      display: block;
+      height: 100%;
+      max-width: 0.2rem;
+      background-color: var(--text-secondary);
+      border-radius: 1rem;
+    }
+  }
 }
