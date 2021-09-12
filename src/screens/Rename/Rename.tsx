@@ -8,14 +8,12 @@ import styles from './Rename.module.scss';
 import { FileManager } from '../../lib/FileManager';
 import FilesList from '../../components/FilesList/FilesList';
 import FileDropzone from '../../components/FileDropzone/FileDropzone';
-import FilesListWithDropzone from '../../components/FilesListWithDropzone/FilesListWithDropzone';
+import MiniDropzone from '../../components/MiniDropzone/MiniDropzone';
+import { MovingStep } from '../../lib/tsDefinitions';
 
 const Rename: React.FC = () => {
-  const movingStep = useSelector((state: RootState) => state.file.movingStep);
   const files = useSelector((state: RootState) => state.file.files);
-  const moveErrorMessage = useSelector(
-    (state: RootState) => state.file.moveErrorMessage
-  );
+  const step = useSelector((state: RootState) => state.ui.movingStep);
 
   let render;
 
@@ -29,12 +27,14 @@ const Rename: React.FC = () => {
 
   if (files.length) {
     render = (
-      <div className={styles.convertFiles}>
-        <FilesListWithDropzone
-          files={files.filter((f: FileManager) => !f.edited)}
-        />
-        <RenameControlls />
-        <FilesList files={files.filter((f: FileManager) => f.edited)} />
+      <div className={styles.convert}>
+        <div className={styles.configRename}>
+          <FilesList files={files.filter((f: FileManager) => !f.edited)} />
+          <RenameControlls />
+          <FilesList files={files.filter((f: FileManager) => f.edited)} />
+        </div>
+
+        <MiniDropzone disabled={step === MovingStep.loading} />
       </div>
     );
   }

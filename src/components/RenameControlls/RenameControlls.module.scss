@@ -3,7 +3,7 @@
   z-index: 10;
   height: 80%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-38%);
   flex: 1;
 
   display: flex;
@@ -30,5 +30,10 @@
     width: 4.5rem;
     height: auto;
     fill: var(--text-secondary);
+  }
+
+  .disabled {
+    fill: var(--text-tertiary);
+    cursor: not-allowed;
   }
 }

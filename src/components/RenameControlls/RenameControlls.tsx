@@ -9,16 +9,24 @@ import {
 } from '../../redux/actions/fileActionsCreator';
 
 import styles from './RenameControlls.module.scss';
+import { MovingStep } from '../../lib/tsDefinitions';
 
 const RenameControlls: React.FC = () => {
   const dispatch = useDispatch();
+
   const files = useSelector(
     (state: RootState) => state.file.files as FileManager[]
   );
 
+  const movingStep = useSelector((state: RootState) => state.ui.movingStep);
+
   const applyRenameTemplate = () => dispatch(applyTemplateToFiles());
-  const handleRenameAndMoveFiles = async () => dispatch(renameAndMoveFiles());
-  const handleClearItems = () => dispatch(setClearItems());
+
+  const handleRenameAndMoveFiles = async () =>
+    movingStep !== MovingStep.loading && dispatch(renameAndMoveFiles());
+
+  const handleClearItems = () =>
+    movingStep !== MovingStep.loading && dispatch(setClearItems());
 
   const allFilesWereEdited = files.length > 0 && files.every((f) => f.edited);
 
@@ -30,7 +38,9 @@ const RenameControlls: React.FC = () => {
           viewBox="0 0 512 512"
           width="512"
           height="512"
-          className={styles.confirm}
+          className={`${styles.confirm} ${
+            movingStep === MovingStep.loading ? styles.disabled : ''
+          }`}
           onClick={applyRenameTemplate}
         >
           <title>Preview</title>
@@ -44,7 +54,9 @@ const RenameControlls: React.FC = () => {
           viewBox="0 0 31 31"
           width="32"
           height="32"
-          className={styles.confirm}
+          className={`${styles.confirm} ${
+            movingStep === MovingStep.loading ? styles.disabled : ''
+          }`}
           onClick={handleRenameAndMoveFiles}
         >
           <title>Confirm</title>
@@ -59,7 +71,9 @@ const RenameControlls: React.FC = () => {
           viewBox="0 0 512 512"
           width="512"
           height="512"
-          className={styles.clear}
+          className={`${styles.clear} ${
+            movingStep === MovingStep.loading ? styles.disabled : ''
+          } `}
           onClick={handleClearItems}
         >
           <title>Clear</title>
