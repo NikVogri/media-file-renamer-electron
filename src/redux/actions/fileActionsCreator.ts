@@ -31,11 +31,10 @@ export const addFiles = (
   getState
 ) => {
   const { files: allFiles } = getState().file;
-  const incomingFiles = (files as File[]).map((f: File) => new FileManager(f));
+  const incomingFiles = files.map((f: File) => new FileManager(f));
 
   const uniqueFiles = incomingFiles.filter(
-    (infile: FileManager) =>
-      !allFiles.some((f: FileManager) => f.name === infile.name)
+    (nfm) => !allFiles.some((fm: FileManager) => fm.name === nfm.name)
   );
 
   dispatch({
@@ -82,18 +81,16 @@ export const applyTemplateToFiles = (): ThunkAction<
     tvSelectedDrive,
   } = getState().settings;
 
-  console.log(files);
-
   const filesWithAppliedTemplate = files.map((f: FileManager) => {
-    let filePathTemplate = '';
+    let fullTemplate = '';
 
     if (f.contentType === ContentType.movie) {
-      filePathTemplate = `${movieSelectedDrive}${path.sep}${movieTemplate}`;
+      fullTemplate = `${movieSelectedDrive}${path.sep}${movieTemplate}`;
     } else if (f.contentType === ContentType.tv) {
-      filePathTemplate = `${tvSelectedDrive}${path.sep}${tvTemplate}`;
+      fullTemplate = `${tvSelectedDrive}${path.sep}${tvTemplate}`;
     }
 
-    f.applyTemplate(filePathTemplate);
+    f.applyTemplate(fullTemplate);
     return f;
   });
 
@@ -129,7 +126,6 @@ export const renameAndMoveFiles = (): ThunkAction<
     dispatch(setCurrentlyMovingFile(null, files.length));
     dispatch(setMovingStep(MovingStep.success));
   } catch (err) {
-    console.log(err);
     dispatch(setMovingStep(MovingStep.fail));
     dispatch(setMoveErrorStatus(extractReadableErrorMessage(err as Error)));
   }
@@ -143,7 +139,7 @@ export const fetchAndApplyDataToTV = (
 ) => {
   const { fetchingForFile, files } = getState().file;
   const API = createApi(getState().settings);
-  const allFiles = [...files] as FileManager[];
+  const allFiles = [...files];
   const updateFile = allFiles.find(
     (f: FileManager) =>
       f.data.title === fetchingForFile.data.title &&
@@ -151,10 +147,8 @@ export const fetchAndApplyDataToTV = (
       f.data.season === fetchingForFile.data.season
   );
 
-  // TODO: change the logic so it will update ALL the files (whole season, not just one file at a time)
-
   if (!updateFile) {
-    throw new Error('Update file unavailable');
+    return;
   }
 
   const fetchedData = await API.getTVSeasonData(
