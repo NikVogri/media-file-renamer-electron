@@ -1,0 +1,13 @@
+name: build-release
+
+on:
+  push:
+    branches: main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm run build
+    - run: npm run package
