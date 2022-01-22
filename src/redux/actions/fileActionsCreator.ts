@@ -16,7 +16,7 @@ import { RootState } from '../store';
 
 import * as types from '../../constants/actionTypes';
 import { getFilesWithMissingData } from '../../lib/getFilesWithMissingData';
-import { GetApi } from '../../lib/api/GetApi';
+import { createApi } from '../../lib/api/createApi';
 import {
   setCurrentlyMovingFile,
   setMoveErrorStatus,
@@ -142,7 +142,7 @@ export const fetchAndApplyDataToTV = (
   getState
 ) => {
   const { fetchingForFile, files } = getState().file;
-  const API = GetApi(getState().settings);
+  const API = createApi(getState().settings);
   const allFiles = [...files] as FileManager[];
   const updateFile = allFiles.find(
     (f: FileManager) =>
@@ -251,7 +251,7 @@ export const fetchAdditionalFileData = (
   getState
 ) => {
   const { title } = file.data;
-  const API = GetApi(getState().settings);
+  const API = createApi(getState().settings);
 
   if (!title) {
     return console.log('file title is missing'); // this should never happen

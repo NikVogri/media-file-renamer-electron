@@ -9,7 +9,8 @@ export interface SettingsState {
 
 const initState: SettingsState = {
   movieTemplate: 'movies/{title}/{title} - {year}',
-  tvTemplate: 'tv/{title}/{title} - S{season}E{episode} - {episodeTitle}',
+  tvTemplate:
+    'tv/{title}/S{pSeason}/{title} - S{pSeason}E{pEpisode} - {episodeTitle}',
   foundDrives: [],
   tvSelectedDrive: '',
   movieSelectedDrive: '',

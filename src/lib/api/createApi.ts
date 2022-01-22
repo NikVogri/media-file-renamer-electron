@@ -1,7 +1,7 @@
 import { SettingsState } from '../../redux/state/settingsState';
 import { TMDBApi } from './TMDB';
 
-export const GetApi = (settings: SettingsState) => {
+export const createApi = (settings: SettingsState) => {
   switch (true) {
     case !!settings.tmdbApiKey:
       return new TMDBApi(settings.tmdbApiKey);
